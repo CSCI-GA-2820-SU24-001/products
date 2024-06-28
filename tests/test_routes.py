@@ -1,6 +1,7 @@
 """
 TestProduct API Service Test Suite
 """
+
 import os
 import logging
 from unittest import TestCase
@@ -18,7 +19,7 @@ DATABASE_URI = os.getenv(
 ######################################################################
 # pylint: disable=too-many-public-methods
 class TestYourResourceService(TestCase):
-    """ REST API Server Tests """
+    """REST API Server Tests"""
 
     @classmethod
     def setUpClass(cls):
@@ -42,7 +43,7 @@ class TestYourResourceService(TestCase):
         db.session.commit()
 
     def tearDown(self):
-        """ This runs after each test """
+        """This runs after each test"""
         db.session.remove()
 
     ######################################################################
@@ -50,7 +51,7 @@ class TestYourResourceService(TestCase):
     ######################################################################
 
     def test_index(self):
-        """ It should call the home page """
+        """It should call the home page"""
         resp = self.client.get("/")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
