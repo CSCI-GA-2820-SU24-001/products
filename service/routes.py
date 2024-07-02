@@ -23,7 +23,7 @@ and Delete Pets from the inventory of pets in the PetShop
 
 from flask import jsonify, request, url_for, abort
 from flask import current_app as app  # Import Flask application
-from service.models import YourResourceModel
+from service.models import Product
 from service.common import status  # HTTP Status Codes
 
 
@@ -32,7 +32,7 @@ from service.common import status  # HTTP Status Codes
 ######################################################################
 @app.route("/")
 def index():
-    """ Root URL response """
+    """Root URL response"""
     return (
         "Reminder: return some useful information in json format about the service here",
         status.HTTP_200_OK,
@@ -43,4 +43,16 @@ def index():
 #  R E S T   A P I   E N D P O I N T S
 ######################################################################
 
+
 # Todo: Place your REST API code here ...
+@app.route("/products/<int:product_id>", methods=["GET"])
+def get_products(product_id):
+    """
+    Get a single Product
+    """
+    app.logger.info("Request to get a product with id [%s]", product_id)
+    product = Product.find(product_id)
+    if not product:
+        abort(status.HTTP_404_NOT_FOUND, f"Product id '{product_id}' was not found.")
+    app.logger.info("Returning product: %s", product.name)
+    return product.serialize(), status.HTTP_200_OK
