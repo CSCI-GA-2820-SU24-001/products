@@ -88,6 +88,28 @@ def create_products():
 
 
 ######################################################################
+# DELETE A PET
+######################################################################
+@app.route("/products/<int:product_id>", methods=["DELETE"])
+def delete_products(product_id):
+    """
+    Delete a Product
+
+    This endpoint will delete a Product based the id specified in the path
+    """
+    app.logger.info("Request to Delete a product with id [%s]", product_id)
+
+    # Delete the Product if it exists
+    product = Product.find(product_id)
+    if product:
+        app.logger.info("Product with ID: %d found.", product.id)
+        product.delete()
+
+    app.logger.info("Product with ID: %d delete complete.", product_id)
+    return {}, status.HTTP_204_NO_CONTENT
+
+
+######################################################################
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
 
@@ -112,3 +134,5 @@ def check_content_type(content_type) -> None:
         status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
         f"Content-Type must be {content_type}",
     )
+
+
