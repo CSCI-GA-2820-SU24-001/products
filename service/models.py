@@ -132,7 +132,7 @@ class Product(db.Model):
         return cls.query.session.get(cls, by_id)
 
     @classmethod
-    def find_by_name(cls, name):
+    def find_by_name(cls, name: str) -> list:
         """Returns all Products with the given name
 
         Args:
