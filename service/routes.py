@@ -131,6 +131,31 @@ def create_products():
         {"Location": location_url},
     )
 
+######################################################################
+# U P D A T E   A   P R O D U C T
+######################################################################
+
+#
+@app.route("/products/<int:product_id>", methods=["PUT"])
+def update_products(product_id):
+    """
+    Update a Product
+    This endpoint will update a Product based on the data in the body that is posted
+    """
+    app.logger.info("Request to update product with id: %s", product_id)
+    check_content_type("application/json")
+    
+    product = Product.find(product_id)
+    if not product:
+        abort(status.HTTP_404_NOT_FOUND, f"Product with id '{product_id}' was not found.")
+    
+    data = request.get_json()
+    app.logger.info("Updating product with data: %s", data)
+    product.deserialize(data)
+    product.update()
+    
+    app.logger.info("Product with id [%s] updated.", product.id)
+    return jsonify(product.serialize()), status.HTTP_200_OK
 
 ######################################################################
 # DELETE A PET
