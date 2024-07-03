@@ -31,11 +31,23 @@ from decimal import Decimal
 ######################################################################
 # GET INDEX
 ######################################################################
+# @app.route("/")
+# def index():
+#     """Root URL response"""
+#     return (
+#         "Reminder: return some useful information in json format about the service here",
+#         status.HTTP_200_OK,
+#     )
 @app.route("/")
 def index():
     """Root URL response"""
+    app.logger.info("Request for Root URL")
     return (
-        "Reminder: return some useful information in json format about the service here",
+        jsonify(
+            name="Product Demo REST API Service",
+            version="1.0",
+            paths=url_for("create_products", _external=True),
+        ),
         status.HTTP_200_OK,
     )
 
