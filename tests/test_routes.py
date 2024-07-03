@@ -95,6 +95,10 @@ class TestYourResourceService(TestCase):
         logging.debug("Response data = %s", data)
         self.assertIn("was not found", data["message"])
 
+    # ----------------------------------------------------------
+    # TEST CREATE
+    # ----------------------------------------------------------
+
     def test_create_product(self):
         """It should Create a new Product"""
         test_product = ProductFactory()
@@ -120,4 +124,22 @@ class TestYourResourceService(TestCase):
         self.assertEqual(new_product["description"], test_product.description)
         self.assertEqual(Decimal(new_product["price"]), test_product.price)
 
+    # ----------------------------------------------------------
+    # TEST DELETE
+    # ----------------------------------------------------------
+    def test_delete_product(self):
+        """It should Delete a Product"""
+        test_product = self._create_products(1)[0]
+        response = self.client.delete(f"{BASE_URL}/{test_product.id}")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(response.data), 0)
+        # make sure they are deleted
+        response = self.client.get(f"{BASE_URL}/{test_product.id}")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_non_existing_product(self):
+        """It should Delete a Product even if it doesn't exist"""
+        response = self.client.delete(f"{BASE_URL}/0")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(response.data), 0)
 
