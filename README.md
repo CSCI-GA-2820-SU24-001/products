@@ -62,7 +62,7 @@ To run the shopcarts service locally, you can use the following command:
 honcho start
 ```
 
-The service will start and be accessible at `http://localhost:8000`. To change the port, update the environment variable in the `.flaskenv` file.
+The service will start and be accessible at `http://localhost:8080`. To change the port, update the environment variable in the `.flaskenv` file.
 
 ## Contents
 
