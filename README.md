@@ -3,15 +3,28 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Language-Python-blue.svg)](https://python.org/)
 
-This is a skeleton you can use to start your projects
+CSCI-GA.2820-003 DevOps and Agile Methodologies Summer 2024
 
 ## Overview
 
-This project template contains starter code for your class project. The `/service` folder contains your `models.py` file for your model and a `routes.py` file for your service. The `/tests` folder has test case starter code for testing the model and the service separately. All you need to do is add your functionality. You can use the [lab-flask-tdd](https://github.com/nyu-devops/lab-flask-tdd) for code examples to copy from.
+This project aims to represent the store items that customers can buy. This service will become a part of an e-commerce website.
 
 ## Automatic Setup
 
-The best way to use this repo is to start your own repo using it as a git template. To do this just press the green **Use this template** button in GitHub and this will become the source for your repository.
+1. clone repository
+
+   ```
+   $ git clone git@github.com:CSCI-GA-2820-SU24-001/products.git
+   $ cd products
+   ```
+
+2. choose "reopen in Docker container" in VSCode
+
+3. run test 
+
+   ```python
+   pytest
+   ```
 
 ## Manual Setup
 
@@ -26,6 +39,16 @@ These should be copied using a bash shell as follows:
     cp .flaskenv ../<your_repo_folder>/
     cp .gitattributes ../<your_repo_folder>/
 ```
+
+## APIs
+The products service provides the following API endpoints:
+
+| Operation                | Method | URL               |
+|--------------------------|--------|-------------------|
+| **List all products**    | GET    | `/products`       |
+| **Create a product**     | POST   | `/products`       |
+| **Read a product**       | GET    | `/products/{id}`  |
+| **Delete a product**     | DELETE | `/products/{id}`  |
 
 ## Contents
 
