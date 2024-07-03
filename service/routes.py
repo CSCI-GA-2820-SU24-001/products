@@ -43,6 +43,10 @@ def index():
 #  R E S T   A P I   E N D P O I N T S
 ######################################################################
 
+######################################################################
+# READ A PET
+######################################################################
+
 @app.route("/products/<int:product_id>", methods=["GET"])
 def get_products(product_id):
     """
@@ -54,6 +58,7 @@ def get_products(product_id):
         abort(status.HTTP_404_NOT_FOUND, f"Product id '{product_id}' was not found.")
     app.logger.info("Returning product: %s", product.name)
     return jsonify(product.serialize()), status.HTTP_200_OK
+
 
 ######################################################################
 # CREATE A NEW PRODUCT
