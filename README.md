@@ -42,6 +42,7 @@ The products service provides the following API endpoints:
 | **List all products**    | GET    | `/products`       |
 | **Create a product**     | POST   | `/products`       |
 | **Read a product**       | GET    | `/products/{id}`  |
+| **Update a product**     | PUT    | `/products/{id}`  |
 | **Delete a product**     | DELETE | `/products/{id}`  |
 
 ## Running the Tests
