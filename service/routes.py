@@ -46,10 +46,11 @@ def index():
         jsonify(
             name="Product Demo REST API Service",
             version="1.0",
-            paths=url_for("create_products", _external=True),
+            paths=url_for("list_products", _external=True),
         ),
         status.HTTP_200_OK,
     )
+
 
 ######################################################################
 #  R E S T   A P I   E N D P O I N T S
@@ -58,6 +59,7 @@ def index():
 ######################################################################
 # LIST ALL PRODUCTS
 ######################################################################
+
 
 @app.route("/products", methods=["GET"])
 def list_products():
@@ -80,9 +82,11 @@ def list_products():
     app.logger.info("Returning %d products", len(results))
     return jsonify(results), status.HTTP_200_OK
 
+
 ######################################################################
 # READ A PET
 ######################################################################
+
 
 @app.route("/products/<int:product_id>", methods=["GET"])
 def get_products(product_id):
@@ -121,7 +125,11 @@ def create_products():
 
     # Return the location of the new Product
     location_url = url_for("get_products", product_id=product.id, _external=True)
-    return jsonify(product.serialize()), status.HTTP_201_CREATED, {"Location": location_url}
+    return (
+        jsonify(product.serialize()),
+        status.HTTP_201_CREATED,
+        {"Location": location_url},
+    )
 
 
 ######################################################################
@@ -171,5 +179,3 @@ def check_content_type(content_type) -> None:
         status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
         f"Content-Type must be {content_type}",
     )
-
-
