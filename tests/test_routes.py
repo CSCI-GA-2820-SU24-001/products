@@ -179,3 +179,43 @@ class TestYourResourceService(TestCase):
         # check the data just to be sure
         for product in data:
             self.assertEqual(product["name"], test_name)
+
+######################################################################
+#  T E S T   S A D   P A T H S
+######################################################################
+class TestSadPaths(TestCase):
+    """Test REST Exception Handling"""
+
+    def setUp(self):
+        """Runs before each test"""
+        self.client = app.test_client()
+
+    def test_method_not_allowed(self):
+        """It should not allow update without a product id"""
+        response = self.client.put(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_create_product_no_data(self):
+        """It should not Create a Product with missing data"""
+        response = self.client.post(BASE_URL, json={})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_product_no_content_type(self):
+        """It should not Create a Product with no content type"""
+        response = self.client.post(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+
+    def test_create_product_wrong_content_type(self):
+        """It should not Create a Product with the wrong content type"""
+        response = self.client.post(BASE_URL, data="hello", content_type="text/html")
+        self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+
+    # TODO: error arising in Serialize due to use of Decimal function
+    # def test_create_product_bad_price(self):
+    #     """It should not Create a Product with bad price data"""
+    #     test_product = ProductFactory()
+    #     logging.debug(test_product)
+    #     # change price to a string
+    #     test_product.price = "true"
+    #     response = self.client.post(BASE_URL, json=test_product.serialize())
+    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
