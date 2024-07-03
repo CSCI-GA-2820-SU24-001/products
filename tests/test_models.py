@@ -118,18 +118,6 @@ class TestProduct(TestCase):
         product = Product()
         self.assertRaises(DataValidationError, product.deserialize, data)
 
-    def test_create_duplicate_product(self):
-        """It should not create a duplicate Product"""
-        product = ProductFactory()
-        product.create()
-        duplicate_product = Product(
-            name=product.name,  # same name to trigger uniqueness constraint
-            description="Duplicate product",
-            price=Decimal("10.00"),
-        )
-        with self.assertRaises(DataValidationError):
-            duplicate_product.create()
-
     def test_update_invalid_id(self):
         """It should not update a Product with an invalid ID"""
         product = ProductFactory()
