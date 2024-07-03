@@ -20,12 +20,6 @@ This project aims to represent the store items that customers can buy. This serv
 
 2. choose "reopen in Docker container" in VSCode
 
-3. run test 
-
-   ```python
-   pytest
-   ```
-
 ## Manual Setup
 
 You can also clone this repository and then copy and paste the starter code into your project repo folder on your local computer. Be careful not to copy over your own `README.md` file so be selective in what you copy.
@@ -49,6 +43,26 @@ The products service provides the following API endpoints:
 | **Create a product**     | POST   | `/products`       |
 | **Read a product**       | GET    | `/products/{id}`  |
 | **Delete a product**     | DELETE | `/products/{id}`  |
+
+## Running the Tests
+
+To run the tests for this project, you can use the following command:
+
+```bash
+make test
+```
+
+This command will run the test suite using `pytest` and ensure that all the tests pass.
+
+## Running the Service
+
+To run the shopcarts service locally, you can use the following command:
+
+```bash
+honcho start
+```
+
+The service will start and be accessible at `http://localhost:8000`. To change the port, update the environment variable in the `.flaskenv` file.
 
 ## Contents
 
