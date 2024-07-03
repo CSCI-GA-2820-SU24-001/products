@@ -15,16 +15,17 @@
 ######################################################################
 
 """
-Pet Store Service
+Product Store Service
 
 This service implements a REST API that allows you to Create, Read, Update
-and Delete Pets from the inventory of pets in the PetShop
+and Delete Products from the inventory of products in the ProductShop
 """
 
 from flask import jsonify, request, url_for, abort
 from flask import current_app as app  # Import Flask application
-from service.models import Product
+from service.models import Product, DataValidationError
 from service.common import status  # HTTP Status Codes
+from decimal import Decimal
 
 
 ######################################################################
@@ -43,8 +44,6 @@ def index():
 #  R E S T   A P I   E N D P O I N T S
 ######################################################################
 
-
-# Todo: Place your REST API code here ...
 @app.route("/products/<int:product_id>", methods=["GET"])
 def get_products(product_id):
     """
@@ -55,4 +54,57 @@ def get_products(product_id):
     if not product:
         abort(status.HTTP_404_NOT_FOUND, f"Product id '{product_id}' was not found.")
     app.logger.info("Returning product: %s", product.name)
-    return product.serialize(), status.HTTP_200_OK
+    return jsonify(product.serialize()), status.HTTP_200_OK
+
+######################################################################
+# CREATE A NEW PRODUCT
+######################################################################
+@app.route("/products", methods=["POST"])
+def create_products():
+    """
+    Create a Product
+    This endpoint will create a Product based the data in the body that is posted
+    """
+    app.logger.info("Request to Create a Product...")
+    check_content_type("application/json")
+
+    product = Product()
+    # Get the data from the request and deserialize it
+    data = request.get_json()
+    app.logger.info("Processing: %s", data)
+    product.deserialize(data)
+
+    # Save the new Product to the database
+    product.create()
+    app.logger.info("Product with new id [%s] saved!", product.id)
+
+    # Return the location of the new Product
+    location_url = url_for("get_products", product_id=product.id, _external=True)
+    return jsonify(product.serialize()), status.HTTP_201_CREATED, {"Location": location_url}
+
+
+######################################################################
+#  U T I L I T Y   F U N C T I O N S
+######################################################################
+
+
+######################################################################
+# Checks the ContentType of a request
+######################################################################
+def check_content_type(content_type) -> None:
+    """Checks that the media type is correct"""
+    if "Content-Type" not in request.headers:
+        app.logger.error("No Content-Type specified.")
+        abort(
+            status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+            f"Content-Type must be {content_type}",
+        )
+
+    if request.headers["Content-Type"] == content_type:
+        return
+
+    app.logger.error("Invalid Content-Type: %s", request.headers["Content-Type"])
+    abort(
+        status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+        f"Content-Type must be {content_type}",
+    )
