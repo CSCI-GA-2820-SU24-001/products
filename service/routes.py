@@ -56,6 +56,31 @@ def index():
 ######################################################################
 
 ######################################################################
+# LIST ALL PRODUCTS
+######################################################################
+
+@app.route("/products", methods=["GET"])
+def list_products():
+    """Returns all of the Products"""
+    app.logger.info("Request for product list")
+
+    products = []
+
+    # Parse any arguments from the query string
+    name = request.args.get("name")
+
+    if name:
+        app.logger.info("Find by name: %s", name)
+        products = Product.find_by_name(name)
+    else:
+        app.logger.info("Find all")
+        products = Product.all()
+
+    results = [product.serialize() for product in products]
+    app.logger.info("Returning %d products", len(results))
+    return jsonify(results), status.HTTP_200_OK
+
+######################################################################
 # READ A PET
 ######################################################################
 
