@@ -127,8 +127,8 @@ class Product(db.Model):
         logger.info("Processing lookup for id %s ...", by_id)
         try:
             by_id = int(by_id)
-        except ValueError:
-            raise DataValidationError("Invalid ID type. ID must be an integer.")
+        except ValueError as exc:
+            raise DataValidationError("Invalid ID type. ID must be an integer.") from exc
         return cls.query.session.get(cls, by_id)
 
     @classmethod

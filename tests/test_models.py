@@ -1,3 +1,11 @@
+
+"""
+This module contains functions and classes for performing various testings.
+It provides functionality for:
+- Product model test cases
+- model testing functions
+"""
+
 import os
 import logging
 from unittest import TestCase
@@ -15,6 +23,7 @@ DATABASE_URI = os.getenv(
 #  Product   M O D E L   T E S T   C A S E S
 ######################################################################
 # pylint: disable=too-many-public-methods
+# pylint: disable=duplicate-code
 class TestProduct(TestCase):
     """Test Cases for Product Model"""
 
@@ -171,7 +180,7 @@ class TestProduct(TestCase):
         with self.assertRaises(DataValidationError):
             product.create()
 
-    # TODO: failed test case uncomment once resolved (XUANBING)
+    # failed test case uncomment once resolved (XUANBING)
     # def test_update_with_missing_data(self):
     #     """It should not update a Product with missing data"""
     #     product = ProductFactory()
@@ -193,7 +202,7 @@ class TestProduct(TestCase):
             data["description"], "Description with special characters !@#$%^&*()"
         )
 
-    # TODO: failed test case uncomment once resolved (XUANBING)
+    # failed test case uncomment once resolved (XUANBING)
     # def test_deserialize_with_invalid_data_types(self):
     #     """It should not deserialize a Product with invalid data types"""
     #     data = {"name": 123, "description": ["not", "a", "string"], "price": "10.00"}
