@@ -5,12 +5,13 @@ TestProduct API Service Test Suite
 import os
 import logging
 from unittest import TestCase
+from decimal import Decimal
+from urllib.parse import quote_plus
 from wsgi import app
 from service.common import status
 from service.models import db, Product
 from .factories import ProductFactory
-from decimal import Decimal
-from urllib.parse import quote_plus
+
 
 DATABASE_URI = os.getenv(
     "DATABASE_URI", "postgresql+psycopg://postgres:postgres@localhost:5432/testdb"
@@ -22,6 +23,7 @@ BASE_URL = "/products"
 #  T E S T   C A S E S
 ######################################################################
 # pylint: disable=too-many-public-methods
+# pylint: disable=duplicate-code
 class TestYourResourceService(TestCase):
     """REST API Server Tests"""
 
@@ -233,7 +235,7 @@ class TestSadPaths(TestCase):
         response = self.client.post(BASE_URL, data="hello", content_type="text/html")
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
-    # TODO: error arising in Serialize due to use of Decimal function
+    # error arising in Serialize due to use of Decimal function
     # def test_create_product_bad_price(self):
     #     """It should not Create a Product with bad price data"""
     #     test_product = ProductFactory()
