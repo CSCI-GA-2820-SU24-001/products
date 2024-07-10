@@ -128,7 +128,9 @@ class Product(db.Model):
         try:
             by_id = int(by_id)
         except ValueError as exc:
-            raise DataValidationError("Invalid ID type. ID must be an integer.") from exc
+            raise DataValidationError(
+                "Invalid ID type. ID must be an integer."
+            ) from exc
         return cls.query.session.get(cls, by_id)
 
     @classmethod
@@ -140,3 +142,23 @@ class Product(db.Model):
         """
         logger.info("Processing name query for %s ...", name)
         return cls.query.filter(cls.name == name)
+
+    @classmethod
+    def find_by_description(cls, description: str) -> list:
+        """Returns all Products with the given description
+
+        Args:
+            description (string): the description of the Products you want to match
+        """
+        logger.info("Processing description query for %s ...", description)
+        return cls.query.filter(cls.description.ilike(f"%{description}%")).all()
+
+    @classmethod
+    def find_by_price(cls, price: Decimal) -> list:
+        """Returns all Products with the given price
+
+        Args:
+            price (Decimal): the price of the Products you want to match
+        """
+        logger.info("Processing price query for %s ...", price)
+        return cls.query.filter(cls.price == price).all()
