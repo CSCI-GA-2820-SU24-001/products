@@ -1,4 +1,3 @@
-
 """
 This module contains functions and classes for performing various testings.
 It provides functionality for:
@@ -180,15 +179,6 @@ class TestProduct(TestCase):
         with self.assertRaises(DataValidationError):
             product.create()
 
-    # failed test case uncomment once resolved (XUANBING)
-    # def test_update_with_missing_data(self):
-    #     """It should not update a Product with missing data"""
-    #     product = ProductFactory()
-    #     product.create()
-    #     product.name = None
-    #     with self.assertRaises(DataValidationError):
-    #         product.update()
-
     def test_serialize_with_special_characters(self):
         """It should serialize a Product with special characters"""
         product = Product(
@@ -201,13 +191,6 @@ class TestProduct(TestCase):
         self.assertEqual(
             data["description"], "Description with special characters !@#$%^&*()"
         )
-
-    # failed test case uncomment once resolved (XUANBING)
-    # def test_deserialize_with_invalid_data_types(self):
-    #     """It should not deserialize a Product with invalid data types"""
-    #     data = {"name": 123, "description": ["not", "a", "string"], "price": "10.00"}
-    #     product = Product()
-    #     self.assertRaises(DataValidationError, product.deserialize, data)
 
     def test_all_method_with_no_products(self):
         """It should return an empty list when no products are present"""
@@ -223,3 +206,29 @@ class TestProduct(TestCase):
         """It should not find a Product with an invalid ID type"""
         with self.assertRaises(DataValidationError):
             Product.find("invalid_id")
+
+    def test_find_by_description(self):
+        """It should Find a Product by Description"""
+        products = ProductFactory.create_batch(5)
+        for product in products:
+            product.create()
+        description = products[0].description
+        count = len(
+            [product for product in products if description in product.description]
+        )
+        found = Product.find_by_description(description)
+        self.assertEqual(len(found), count)
+        for product in found:
+            self.assertIn(description, product.description)
+
+    def test_find_by_price(self):
+        """It should Find a Product by Price"""
+        products = ProductFactory.create_batch(5)
+        for product in products:
+            product.create()
+        price = products[0].price
+        count = len([product for product in products if product.price == price])
+        found = Product.find_by_price(price)
+        self.assertEqual(len(found), count)
+        for product in found:
+            self.assertEqual(product.price, price)

@@ -204,6 +204,36 @@ class TestYourResourceService(TestCase):
         for product in data:
             self.assertEqual(product["name"], test_name)
 
+    def test_query_by_description(self):
+        """It should Query Products by description"""
+        products = self._create_products(5)
+        test_description = products[0].description
+        description_count = len(
+            [product for product in products if product.description == test_description]
+        )
+        response = self.client.get(
+            BASE_URL, query_string=f"description={quote_plus(test_description)}"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data), description_count)
+        for product in data:
+            self.assertEqual(product["description"], test_description)
+
+    def test_query_by_price(self):
+        """It should Query Products by price"""
+        products = self._create_products(5)
+        test_price = products[0].price
+        price_count = len(
+            [product for product in products if product.price == test_price]
+        )
+        response = self.client.get(BASE_URL, query_string=f"price={test_price}")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data), price_count)
+        for product in data:
+            self.assertEqual(Decimal(product["price"]), test_price)
+
 
 ######################################################################
 #  T E S T   S A D   P A T H S
@@ -234,13 +264,3 @@ class TestSadPaths(TestCase):
         """It should not Create a Product with the wrong content type"""
         response = self.client.post(BASE_URL, data="hello", content_type="text/html")
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
-
-    # error arising in Serialize due to use of Decimal function
-    # def test_create_product_bad_price(self):
-    #     """It should not Create a Product with bad price data"""
-    #     test_product = ProductFactory()
-    #     logging.debug(test_product)
-    #     # change price to a string
-    #     test_product.price = "true"
-    #     response = self.client.post(BASE_URL, json=test_product.serialize())
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

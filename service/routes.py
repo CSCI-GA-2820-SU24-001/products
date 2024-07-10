@@ -25,6 +25,7 @@ from flask import jsonify, request, url_for, abort
 from flask import current_app as app  # Import Flask application
 from service.models import Product
 from service.common import status  # HTTP Status Codes
+from decimal import Decimal
 
 
 ######################################################################
@@ -62,19 +63,24 @@ def index():
 
 @app.route("/products", methods=["GET"])
 def list_products():
-    """Returns all of the Products"""
+    """Returns all of the Products, optionally filtered by query parameters"""
     app.logger.info("Request for product list")
 
-    products = []
-
-    # Parse any arguments from the query string
     name = request.args.get("name")
+    description = request.args.get("description")
+    price = request.args.get("price")
 
     if name:
-        app.logger.info("Find by name: %s", name)
+        app.logger.info("Filtering products by name: %s", name)
         products = Product.find_by_name(name)
+    elif description:
+        app.logger.info("Filtering products by description: %s", description)
+        products = Product.find_by_description(description)
+    elif price:
+        app.logger.info("Filtering products by price: %s", price)
+        products = Product.find_by_price(Decimal(price))
     else:
-        app.logger.info("Find all")
+        app.logger.info("Finding all products")
         products = Product.all()
 
     results = [product.serialize() for product in products]
