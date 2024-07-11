@@ -20,12 +20,11 @@ Product Store Service
 This service implements a REST API that allows you to Create, Read, Update
 and Delete Products from the inventory of products in the ProductShop
 """
-
+from decimal import Decimal
 from flask import jsonify, request, url_for, abort
 from flask import current_app as app  # Import Flask application
 from service.models import Product
 from service.common import status  # HTTP Status Codes
-from decimal import Decimal
 
 
 ######################################################################
@@ -66,9 +65,13 @@ def list_products():
     """Returns all of the Products, optionally filtered by query parameters"""
     app.logger.info("Request for product list")
 
+    products = []
+
+    # Parse any arguments from the query string
     name = request.args.get("name")
     description = request.args.get("description")
     price = request.args.get("price")
+    available = request.args.get("available")
 
     if name:
         app.logger.info("Filtering products by name: %s", name)
@@ -79,6 +82,11 @@ def list_products():
     elif price:
         app.logger.info("Filtering products by price: %s", price)
         products = Product.find_by_price(Decimal(price))
+    elif available:
+        app.logger.info("Find by available: %s", available)
+        # create bool from string
+        available_value = available.lower() in ["true", "yes", "1"]
+        products = Product.find_by_availability(available_value)
     else:
         app.logger.info("Finding all products")
         products = Product.all()
@@ -189,6 +197,38 @@ def delete_products(product_id):
 
     app.logger.info("Product with ID: %d delete complete.", product_id)
     return {}, status.HTTP_204_NO_CONTENT
+
+
+######################################################################
+# PURCHASE A PRODUCT
+######################################################################
+@app.route("/products/<int:product_id>/purchase", methods=["PUT"])
+def purchase_products(product_id):
+    """Purchasing a Product makes it unavailable"""
+    app.logger.info("Request to purchase product with id: %d", product_id)
+
+    # Attempt to find the Product and abort if not found
+    product = Product.find(product_id)
+    if not product:
+        abort(
+            status.HTTP_404_NOT_FOUND, f"Product with id '{product_id}' was not found."
+        )
+
+    # you can only purchase products that are available
+    if not product.available:
+        abort(
+            status.HTTP_409_CONFLICT,
+            f"Product with id '{product_id}' is not available.",
+        )
+
+    # At this point you would execute code to purchase the product
+    # For the moment, we will just set them to unavailable
+
+    product.available = False
+    product.update()
+
+    app.logger.info("Product with ID: %d has been purchased.", product_id)
+    return product.serialize(), status.HTTP_200_OK
 
 
 ######################################################################

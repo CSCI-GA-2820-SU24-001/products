@@ -56,11 +56,20 @@ class TestProduct(TestCase):
     def test_create_a_product(self):
         """It should create a Product and assert that it exists"""
         product = Product(
-            name="Test Product", description="A test product", price=Decimal("10.00")
+            name="Test Product",
+            description="A test product",
+            price=Decimal("10.00"),
+            available=True,
         )
+
         self.assertIsNone(product.id)
         product.create()
         self.assertIsNotNone(product.id)
+        self.assertTrue(product is not None)
+        self.assertEqual(product.name, "Test Product")
+        self.assertEqual(product.description, "A test product")
+        self.assertEqual(product.price, Decimal("10.00"))
+        self.assertEqual(product.available, True)
 
     def test_read_a_product(self):
         """It should read a Product"""
@@ -72,6 +81,7 @@ class TestProduct(TestCase):
         self.assertEqual(found_product.name, product.name)
         self.assertEqual(found_product.description, product.description)
         self.assertEqual(found_product.price, product.price)
+        self.assertEqual(found_product.available, product.available)
 
     def test_update_a_product(self):
         """It should update a Product"""
@@ -100,6 +110,7 @@ class TestProduct(TestCase):
         self.assertEqual(data["name"], product.name)
         self.assertEqual(data["description"], product.description)
         self.assertEqual(data["price"], str(product.price))
+        self.assertEqual(data["available"], product.available)
 
     def test_deserialize_a_product(self):
         """It should deserialize a Product"""
@@ -107,12 +118,14 @@ class TestProduct(TestCase):
             "name": "Test Product",
             "description": "A test product",
             "price": "10.00",
+            "available": True,
         }
         product = Product()
         product.deserialize(data)
         self.assertEqual(product.name, "Test Product")
         self.assertEqual(product.description, "A test product")
         self.assertEqual(product.price, Decimal("10.00"))
+        self.assertEqual(product.available, True)
 
     def test_deserialize_with_key_error(self):
         """It should not deserialize a Product with a KeyError"""
@@ -185,6 +198,7 @@ class TestProduct(TestCase):
             name="Special!@#$%^&*()_+-=~`[]{}|;:'\",<.>/?",
             description="Description with special characters !@#$%^&*()",
             price=Decimal("10.00"),
+            available=True,
         )
         data = product.serialize()
         self.assertEqual(data["name"], "Special!@#$%^&*()_+-=~`[]{}|;:'\",<.>/?")
@@ -232,3 +246,23 @@ class TestProduct(TestCase):
         self.assertEqual(len(found), count)
         for product in found:
             self.assertEqual(product.price, price)
+
+    def test_find_by_availability(self):
+        """It should Find Products by Availability"""
+        products = ProductFactory.create_batch(10)
+        for product in products:
+            product.create()
+        available = products[0].available
+        count = len([product for product in products if product.available == available])
+        found = Product.find_by_availability(available)
+        self.assertEqual(found.count(), count)
+        for product in found:
+            self.assertEqual(product.available, available)
+
+    def test_deserialize_bad_available(self):
+        """It should not deserialize a bad available attribute"""
+        test_product = ProductFactory()
+        data = test_product.serialize()
+        data["available"] = "true"
+        product = Product()
+        self.assertRaises(DataValidationError, product.deserialize, data)
