@@ -31,6 +31,7 @@ class Product(db.Model):
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(250), nullable=False)
     price = db.Column(db.Numeric, nullable=False)
+    available = db.Column(db.Boolean(), nullable=False, default=False)
 
     def __repr__(self):
         return f"<Product {self.name} id=[{self.id}]>"
@@ -85,6 +86,7 @@ class Product(db.Model):
             "name": self.name,
             "description": self.description,
             "price": str(self.price),
+            "available": self.available,
         }
 
     def deserialize(self, data: dict):
@@ -94,11 +96,18 @@ class Product(db.Model):
             data (dict): A dictionary containing the Product data
         """
         try:
-            if not isinstance(data, dict):
-                raise TypeError("Invalid data type. Expected dictionary.")
+            # if not isinstance(data, dict):
+            #     raise TypeError("Invalid data type. Expected dictionary.")
             self.name = data["name"]
             self.description = data["description"]
             self.price = Decimal(data["price"])
+            if isinstance(data["available"], bool):
+                self.available = data["available"]
+            else:
+                raise DataValidationError(
+                    "Invalid type for boolean [available]: "
+                    + str(type(data["available"]))
+                )
         except AttributeError as error:
             raise DataValidationError(
                 "Error: Invalid attribute " + error.args[0]
@@ -162,3 +171,19 @@ class Product(db.Model):
         """
         logger.info("Processing price query for %s ...", price)
         return cls.query.filter(cls.price == price).all()
+
+    @classmethod
+    def find_by_availability(cls, available: bool = True) -> list:
+        """Returns all Products by their availability
+
+        :param available: True for products that are available
+        :type available: str
+
+        :return: a collection of Products that are available
+        :rtype: list
+
+        """
+        if not isinstance(available, bool):
+            raise TypeError("Invalid availability, must be of type boolean")
+        logger.info("Processing available query for %s ...", available)
+        return cls.query.filter(cls.available == available)
