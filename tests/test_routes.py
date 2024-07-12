@@ -297,6 +297,14 @@ class TestYourResourceService(TestCase):
         response = self.client.put(f"{BASE_URL}/{product.id}/purchase")
         self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
 
+    def test_purchase_not_found(self):
+        """It should not Purchase a Product that is not found"""
+        response = self.client.put(f"{BASE_URL}/0/purchase")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        data = response.get_json()
+        logging.debug("Response data = %s", data)
+        self.assertIn("was not found", data["message"])
+
 
 ######################################################################
 #  T E S T   S A D   P A T H S
