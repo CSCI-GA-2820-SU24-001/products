@@ -68,4 +68,5 @@ jobs:
       - name: Upload code coverage
         uses: codecov/codecov-action@v3.1.4
         with:
+          # has some problems with the codecov token
           token: ${{ secrets.CODECOV_TOKEN }} 
