@@ -190,6 +190,8 @@ class TestYourResourceService(TestCase):
     # ----------------------------------------------------------
     # TEST QUERY
     # ----------------------------------------------------------
+
+    # some query unit tests fail after running make test many times
     def test_query_by_name(self):
         """It should Query Products by name"""
         products = self._create_products(5)
