@@ -74,21 +74,20 @@ def list_products():
     available = request.args.get("available")
 
     if name:
-        app.logger.info("Filtering products by name: %s", name)
+        app.logger.info("Find products by name: %s", name)
         products = Product.find_by_name(name)
     elif description:
-        app.logger.info("Filtering products by description: %s", description)
+        app.logger.info("Find products by description: %s", description)
         products = Product.find_by_description(description)
     elif price:
-        app.logger.info("Filtering products by price: %s", price)
+        app.logger.info("Find products by price: %s", price)
         products = Product.find_by_price(Decimal(price))
     elif available:
         app.logger.info("Find by available: %s", available)
-        # create bool from string
         available_value = available.lower() in ["true", "yes", "1"]
         products = Product.find_by_availability(available_value)
     else:
-        app.logger.info("Finding all products")
+        app.logger.info("Find all products")
         products = Product.all()
 
     results = [product.serialize() for product in products]
