@@ -167,7 +167,7 @@ class TestYourResourceService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         updated_product = response.get_json()
         self.assertEqual(updated_product["description"], "unknown")
-    
+
     def test_update_product_with_negative_price(self):
         """It should not Update a Product with a negative price"""
         # create a product to update
