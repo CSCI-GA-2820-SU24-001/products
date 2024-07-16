@@ -96,8 +96,6 @@ class Product(db.Model):
             data (dict): A dictionary containing the Product data
         """
         try:
-            # if not isinstance(data, dict):
-            #     raise TypeError("Invalid data type. Expected dictionary.")
             self.name = data["name"]
             self.description = data["description"]
             self.price = Decimal(data["price"])
