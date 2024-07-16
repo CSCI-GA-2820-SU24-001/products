@@ -101,7 +101,7 @@ class TestProduct(TestCase):
         product.delete()
         found_product = Product.find(product.id)
         self.assertIsNone(found_product)
-    
+
     def test_update_product_with_negative_price(self):
         """It should not update a Product with a negative price"""
         product = ProductFactory()
