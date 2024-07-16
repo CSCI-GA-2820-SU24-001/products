@@ -66,15 +66,17 @@ These should be copied using a bash shell as follows:
 ```
 
 ## APIs
+
 The products service provides the following API endpoints:
 
-| Operation                | Method | URL               |
-|--------------------------|--------|-------------------|
-| **List all products**    | GET    | `/products`       |
-| **Create a product**     | POST   | `/products`       |
-| **Read a product**       | GET    | `/products/{id}`  |
-| **Update a product**     | PUT    | `/products/{id}`  |
-| **Delete a product**     | DELETE | `/products/{id}`  |
+| Operation              | Method | URL                       |
+| ---------------------- | ------ | ------------------------- |
+| **List all products**  | GET    | `/products`               |
+| **Create a product**   | POST   | `/products`               |
+| **Read a product**     | GET    | `/products/{id}`          |
+| **Update a product**   | PUT    | `/products/{id}`          |
+| **Delete a product**   | DELETE | `/products/{id}`          |
+| **Purchase a product** | PUT    | `/products/{id}/purchase` |
 
 ## Running the Tests
 
