@@ -1,6 +1,9 @@
 # NYU DevOps Project Template
 
-![CI](https://github.com/CSCI-GA-2820-SU24-001/products/actions/workflows/ci.yml/badge.svg) [![codecov](https://codecov.io/gh/CSCI-GA-2820-SU24-001/products/branch/master/graph/badge.svg)](https://codecov.io/gh/CSCI-GA-2820-SU24-001/products)
+
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build Status](https://github.com/CSCI-GA-2820-SU24-001/products/actions/workflows/ci.yml/badge.svg)](https://github.com/CSCI-GA-2820-SU24-001/products/actions)
+[![codecov](https://codecov.io/gh/CSCI-GA-2820-SU24-001/products/graph/badge.svg?token=64ffa5c4-25d2-40e6-be4a-1262d2bd4046)](https://codecov.io/gh/CSCI-GA-2820-SU24-001/products)
 
 
 ## License
