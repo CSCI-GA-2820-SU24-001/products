@@ -101,6 +101,15 @@ class TestProduct(TestCase):
         product.delete()
         found_product = Product.find(product.id)
         self.assertIsNone(found_product)
+    
+    def test_update_product_with_negative_price(self):
+        """It should not update a Product with a negative price"""
+        product = ProductFactory()
+        product.create()
+        self.assertIsNotNone(product.id)
+        product.price = Decimal("-10.00")
+        with self.assertRaises(DataValidationError):
+            product.update()
 
     def test_serialize_a_product(self):
         """It should serialize a Product"""

@@ -61,6 +61,8 @@ class Product(db.Model):
             raise DataValidationError("ID field cannot be empty")
         if not self.name:
             raise DataValidationError("Name field cannot be empty")
+        if self.price is None or self.price < Decimal("0.00"):
+            raise DataValidationError("Price must be a positive number")
         try:
             db.session.commit()
         except Exception as e:
