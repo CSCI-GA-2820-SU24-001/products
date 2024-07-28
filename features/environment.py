@@ -7,7 +7,7 @@ from selenium import webdriver
 
 WAIT_SECONDS = int(getenv("WAIT_SECONDS", "30"))
 BASE_URL = getenv("BASE_URL", "http://localhost:8080")
-DRIVER = getenv("DRIVER", "chrome").lower()
+DRIVER = getenv("DRIVER", "chrome").lower()  # 默认使用 Chrome
 
 
 def before_all(context):
