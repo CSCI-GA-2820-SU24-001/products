@@ -58,7 +58,8 @@ def health_check():
 
 @app.route("/")
 def index():
-    """Base URL for our service"""
+    """Root URL response"""
+    app.logger.info("Request for Root URL")
     return app.send_static_file("index.html")
 
 
