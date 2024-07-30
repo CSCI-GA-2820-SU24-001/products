@@ -1,5 +1,36 @@
+<<<<<<< HEAD
 import logging
 from behave import when, then
+=======
+######################################################################
+# Copyright 2016, 2024 John J. Rofrano. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+######################################################################
+
+# pylint: disable=function-redefined, missing-function-docstring
+# flake8: noqa
+"""
+Web Steps
+
+Steps file for web interactions with Selenium
+
+For information on Waiting until elements are present in the HTML see:
+    https://selenium-python.readthedocs.io/waits.html
+"""
+import logging
+from behave import when, then  # pylint: disable=no-name-in-module
+>>>>>>> set-environment
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions
@@ -11,6 +42,11 @@ ID_PREFIX = "product_"
 def step_impl(context):
     """Make a call to the base URL"""
     context.driver.get(context.base_url)
+<<<<<<< HEAD
+=======
+    # Uncomment next line to take a screenshot of the web page
+    # context.driver.save_screenshot('home_page.png')
+>>>>>>> set-environment
 
 
 @then('I should see "{message}" in the title')
@@ -54,6 +90,12 @@ def step_impl(context, element_name):
     assert element.get_attribute("value") == ""
 
 
+<<<<<<< HEAD
+=======
+##################################################################
+# These two function simulate copy and paste
+##################################################################
+>>>>>>> set-environment
 @when('I copy the "{element_name}" field')
 def step_impl(context, element_name):
     element_id = ID_PREFIX + element_name.lower().replace(" ", "_")
@@ -74,10 +116,26 @@ def step_impl(context, element_name):
     element.send_keys(context.clipboard)
 
 
+<<<<<<< HEAD
 @when('I press the "{button}" button')
 def step_impl(context, button):
     button_id = button.lower() + "-btn"
     context.driver.find_element_by_id(button_id).click()
+=======
+##################################################################
+# This code works because of the following naming convention:
+# The buttons have an id in the html hat is the button text
+# in lowercase followed by '-btn' so the Clean button has an id of
+# id='clear-btn'. That allows us to lowercase the name and add '-btn'
+# to get the element id of any button
+##################################################################
+
+
+@when('I press the "{button}" button')
+def step_impl(context, button):
+    button_id = button.lower() + "-btn"
+    context.driver.find_element(By.ID, button_id).click()
+>>>>>>> set-environment
 
 
 @then('I should see "{name}" in the results')
@@ -92,7 +150,11 @@ def step_impl(context, name):
 
 @then('I should not see "{name}" in the results')
 def step_impl(context, name):
+<<<<<<< HEAD
     element = context.driver.find_element_by_id("search_results")
+=======
+    element = context.driver.find_element(By.ID, "search_results")
+>>>>>>> set-environment
     assert name not in element.text
 
 
@@ -106,6 +168,17 @@ def step_impl(context, message):
     assert found
 
 
+<<<<<<< HEAD
+=======
+##################################################################
+# This code works because of the following naming convention:
+# The id field for text input in the html is the element name
+# prefixed by ID_PREFIX so the Name field has an id='product_name'
+# We can then lowercase the name and prefix with product_ to get the id
+##################################################################
+
+
+>>>>>>> set-environment
 @then('I should see "{text_string}" in the "{element_name}" field')
 def step_impl(context, text_string, element_name):
     element_id = ID_PREFIX + element_name.lower().replace(" ", "_")
