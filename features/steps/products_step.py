@@ -54,7 +54,7 @@ def step_impl(context):
         payload = {
             "name": row["name"],
             "description": row["description"],
-            "price": float(row["price"]),
+            "price": row["price"],
             "available": row["available"] in ["True", "true", "1"],
         }
         context.resp = requests.post(rest_endpoint, json=payload, timeout=WAIT_TIMEOUT)
