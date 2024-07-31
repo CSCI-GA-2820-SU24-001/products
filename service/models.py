@@ -87,7 +87,7 @@ class Product(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "price": float(self.price),
+            "price": str(self.price),
             "available": self.available,
         }
 
