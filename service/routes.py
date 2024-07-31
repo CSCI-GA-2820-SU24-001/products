@@ -40,7 +40,7 @@ def health_check():
 # GET INDEX
 ######################################################################
 
-
+# old version for home page
 # @app.route("/")
 # def index():
 #     """Root URL response"""
