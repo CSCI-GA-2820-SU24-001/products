@@ -81,3 +81,23 @@ Scenario: List all products
     And I should see "Mug" in the results
     And I should see "Pen" in the results
     And I should not see "Notebook" in the results
+
+Scenario: Search Product by Name
+    When I visit the "Home Page"
+    And I set the "Name" to "Mug"
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Mug" in the results
+    And I should not see "fluffy" in the results
+    And I should not see "Pen" in the results
+    And I should not see "Notebook" in the results
+
+Scenario: Search for available
+    When I visit the "Home Page"
+    And I select "True" in the "Available" dropdown
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Pen" in the results
+    And I should see "Mug" in the results
+    And I should see "fluffy" in the results
+    And I should not see "Notebook" in the results
