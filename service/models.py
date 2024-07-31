@@ -30,7 +30,7 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(250), nullable=False)
-    price = db.Column(db.Numeric, nullable=False)
+    price = db.Column(db.Numeric(scale=2), nullable=False)
     available = db.Column(db.Boolean(), nullable=False, default=False)
 
     def __repr__(self):
