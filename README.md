@@ -22,6 +22,14 @@ The project contains the following:
 .devcontainers/     - Folder with support for VSCode Remote Containers
 dot-env-example     - copy to .env to use environment variables
 pyproject.toml      - Poetry list of Python libraries required by your code
+wsgi.py             - WSGI entry point for the application
+
+features/                  - BDD features package
+├── steps                  - step definitions for BDD
+│   ├── products_steps.py  - BDD steps for products
+│   ├── web_steps.py       - BDD steps for web interactions
+├── environment.py         - BDD environment setup
+└── products.feature       - BDD feature file
 
 service/                   - service python package
 ├── __init__.py            - package initializer
@@ -33,6 +41,14 @@ service/                   - service python package
     ├── error_handlers.py  - HTTP error handling code
     ├── log_handlers.py    - logging setup code
     └── status.py          - HTTP status constants
+└── static                      - static files package
+    ├── css                     - CSS files
+    ├── images                  - Image files
+    ├── js                      - JavaScript files
+    │   ├── bootstrap.min.js    - Bootstrap library for responsive design
+    │   ├── jquery-3.6.0.min.js - jQuery library for simplified JavaScript operations
+    │   └── rest_api.js         - JavaScript file for interacting with the REST API
+    └── index.html              - Main HTML file for the web interface
 
 tests/                     - test cases package
 ├── __init__.py            - package initializer
