@@ -56,7 +56,6 @@ def step_impl(context):
             "description": row["description"],
             "price": float(row["price"]),
             "available": row["available"] in ["True", "true", "1"],
-            "category": row["category"],
         }
         context.resp = requests.post(rest_endpoint, json=payload, timeout=WAIT_TIMEOUT)
         expect(context.resp.status_code).equal_to(HTTP_201_CREATED)

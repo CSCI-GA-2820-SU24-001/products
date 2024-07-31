@@ -14,7 +14,6 @@ $(function () {
         } else {
             $("#product_available").val("false");
         }
-        $("#product_category").val(res.category);
         $("#product_price").val(res.price);
     }
 
@@ -23,7 +22,6 @@ $(function () {
         $("#product_name").val("");
         $("#product_description").val("");
         $("#product_available").val("");
-        $("#product_category").val("");
         $("#product_price").val("");
     }
 
@@ -42,14 +40,12 @@ $(function () {
         let name = $("#product_name").val();
         let description = $("#product_description").val();
         let available = $("#product_available").val() == "true";
-        let category = $("#product_category").val();
         let price = $("#product_price").val();
 
         let data = {
             "name": name,
             "description": description,
             "available": available,
-            "category": category,
             "price": price
         };
 
@@ -83,14 +79,12 @@ $(function () {
         let name = $("#product_name").val();
         let description = $("#product_description").val();
         let available = $("#product_available").val() == "true";
-        let category = $("#product_category").val();
         let price = $("#product_price").val();
 
         let data = {
             "name": name,
             "description": description,
             "available": available,
-            "category": category,
             "price": price
         };
 
@@ -190,7 +184,6 @@ $(function () {
         let name = $("#product_name").val();
         let description = $("#product_description").val();
         let available = $("#product_available").val() == "true";
-        let category = $("#product_category").val();
 
         let queryString = ""
 
@@ -208,12 +201,6 @@ $(function () {
                 queryString += '&'  // add separator
             }
             queryString += 'available=' + available
-        }
-        if (category) {
-            if (queryString.length > 0) {
-                queryString += '&'  // add separator
-            }
-            queryString += 'category=' + category
         }
 
         $("#flash_message").empty();
@@ -234,13 +221,12 @@ $(function () {
             table += '<th class="col-md-2">Name</th>'
             table += '<th class="col-md-2">Description</th>'
             table += '<th class="col-md-2">Available</th>'
-            table += '<th class="col-md-2">Category</th>'
             table += '<th class="col-md-2">Price</th>'
             table += '</tr></thead><tbody>'
             let firstProduct = "";
             for(let i = 0; i < res.length; i++) {
                 let product = res[i];
-                table +=  `<tr id="row_${i}"><td>${product.id}</td><td>${product.name}</td><td>${product.description}</td><td>${product.available}</td><td>${product.category}</td><td>${product.price}</td></tr>`;
+                table +=  `<tr id="row_${i}"><td>${product.id}</td><td>${product.name}</td><td>${product.description}</td><td>${product.available}</td><td>${product.price}</td></tr>`;
                 if (i == 0) {
                     firstProduct = product;
                 }
