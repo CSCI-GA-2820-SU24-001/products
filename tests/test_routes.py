@@ -84,8 +84,7 @@ class TestYourResourceService(TestCase):
         """It should call the Home Page"""
         response = self.client.get("/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        data = response.get_json()
-        self.assertEqual(data["name"], "Product Demo REST API Service")
+        self.assertIn("text/html", response.content_type)
 
     def test_health(self):
         """It should be healthy"""
