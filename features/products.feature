@@ -18,8 +18,8 @@ Scenario: The server is running
 
 Scenario: Create a Product
     When I visit the "Home Page"
-    And I set the "Name" to "Bottle"
-    And I set the "Description" to "Water bottle"
+    And I set the "Name" to "Happy"
+    And I set the "Description" to "Unknown"
     And I select "True" in the "Available" dropdown
     And I set the "Price" to "3.75"
     And I press the "Create" button
@@ -32,7 +32,7 @@ Scenario: Create a Product
     When I paste the "Id" field
     And I press the "Retrieve" button
     Then I should see the message "Success"
-    And I should see "Bottle" in the "Name" field
-    And I should see "Water bottle" in the "Description" field
+    And I should see "Happy" in the "Name" field
+    And I should see "Unknown" in the "Description" field
     And I should see "True" in the "Available" dropdown
     And I should see "3.75" in the "Price" field
