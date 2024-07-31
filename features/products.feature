@@ -101,3 +101,23 @@ Scenario: Search for available
     And I should see "Mug" in the results
     And I should see "fluffy" in the results
     And I should not see "Notebook" in the results
+
+Scenario: Purchase a Product
+    When I visit the "Home Page"
+    And I set the "Name" to "fluffy"
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "True" in the "Available" dropdown
+     When I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
+    And I press the "Retrieve" button
+    Then I should see the message "Success"
+    When I press the "Purchase" button
+    Then I should see the message "Success"
+    When I press the "Clear" button
+    And I select "False" in the "Available" dropdown
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "fluffy" in the results
+    And I should not see "Mug" in the results
