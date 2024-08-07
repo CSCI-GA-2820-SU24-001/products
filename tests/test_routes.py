@@ -2,6 +2,10 @@
 TestProduct API Service Test Suite
 """
 
+"""
+TestProduct API Service Test Suite
+"""
+
 import os
 import logging
 from unittest import TestCase
@@ -55,11 +59,11 @@ class TestYourResourceService(TestCase):
     ############################################################
     # Utility function to bulk create products
     ############################################################
-    def _create_products(self, count: int = 1) -> list:
-        """Factory method to create products in bulk"""
+    def _create_products(self, count: int = 1, available: bool = True) -> list:
+        """Factory method to create products in bulk with optional availability status"""
         products = []
         for _ in range(count):
-            test_product = ProductFactory()
+            test_product = ProductFactory(available=available)
             response = self.client.post(BASE_URL, json=test_product.serialize())
             self.assertEqual(
                 response.status_code,
@@ -71,6 +75,7 @@ class TestYourResourceService(TestCase):
             products.append(test_product)
         return products
 
+    
     ######################################################################
     #  P L A C E   T E S T   C A S E S   H E R E
     ######################################################################
@@ -104,6 +109,17 @@ class TestYourResourceService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
         self.assertEqual(len(data), 5)
+
+    def test_list_available_products(self):
+        """It should list all available products"""
+        # Create some available and some unavailable products
+        self._create_products(5, available=True)
+        self._create_products(5, available=False)
+        response = self.client.get(f"{BASE_URL}/available")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data), 5)  # Should only return available products
+
 
     # ----------------------------------------------------------
     # TEST READ
