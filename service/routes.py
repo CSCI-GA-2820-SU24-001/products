@@ -209,6 +209,22 @@ def delete_products(product_id):
     app.logger.info("Product with ID: %d delete complete.", product_id)
     return {}, status.HTTP_204_NO_CONTENT
 
+######################################################################
+# LIST AVAILABLE PRODUCTS
+######################################################################
+@app.route("/products/available", methods=["GET"])
+def list_available_products():
+    """Returns all available Products"""
+    app.logger.info("Request for available product list")
+
+    # Retrieve available products
+    products = Product.find_by_availability(True)
+    results = [product.serialize() for product in products]
+
+    app.logger.info("Returning %d available products", len(results))
+    return jsonify(results), status.HTTP_200_OK
+
+
 
 ######################################################################
 # PURCHASE A PRODUCT
