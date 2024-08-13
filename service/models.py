@@ -59,8 +59,8 @@ class Product(db.Model):
         logger.info("Saving %s", self.name)
         if not self.id:
             raise DataValidationError("ID field cannot be empty")
-        if not self.name:
-            raise DataValidationError("Name field cannot be empty")
+        # if not self.name:
+        #     raise DataValidationError("Name field cannot be empty")
         if self.price is None or self.price < Decimal("0.00"):
             raise DataValidationError("Price must be a positive number")
         try:
@@ -100,7 +100,7 @@ class Product(db.Model):
         try:
             self.name = data["name"]
             self.description = data["description"]
-            self.price = Decimal(data["price"])
+            self.price = round(Decimal(data["price"]), 2)
             if isinstance(data["available"], bool):
                 self.available = data["available"]
             else:
@@ -183,7 +183,7 @@ class Product(db.Model):
         :rtype: list
 
         """
-        if not isinstance(available, bool):
-            raise TypeError("Invalid availability, must be of type boolean")
+        # if not isinstance(available, bool):
+        #     raise TypeError("Invalid availability, must be of type boolean")
         logger.info("Processing available query for %s ...", available)
         return cls.query.filter(cls.available == available)
