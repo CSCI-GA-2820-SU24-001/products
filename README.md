@@ -89,12 +89,12 @@ The products service provides the following API endpoints:
 
 | Operation              | Method | URL                       |
 | ---------------------- | ------ | ------------------------- |
-| **List all products**  | GET    | `/products`               |
-| **Create a product**   | POST   | `/products`               |
-| **Read a product**     | GET    | `/products/{id}`          |
-| **Update a product**   | PUT    | `/products/{id}`          |
-| **Delete a product**   | DELETE | `/products/{id}`          |
-| **Purchase a product** | PUT    | `/products/{id}/purchase` |
+| **List all products**  | GET    | `/api/products`               |
+| **Create a product**   | POST   | `/api/products`               |
+| **Read a product**     | GET    | `/api/products/{id}`          |
+| **Update a product**   | PUT    | `/api/products/{id}`          |
+| **Delete a product**   | DELETE | `/api/products/{id}`          |
+| **Purchase a product** | PUT    | `/api/products/{id}/purchase` |
 
 ## Running the Tests
 
@@ -115,6 +115,62 @@ honcho start
 ```
 
 The service will start and be accessible at `http://localhost:8080`. To change the port, update the environment variable in the `.flaskenv` file.
+
+## Deploy on Kubernetes Locally
+
+To deploy the shopcarts service on Kubernetes locally, follow these steps:
+
+* In order to create the cluster run:
+
+```bash
+make cluster
+```
+
+* To delete a cluster run
+  
+```bash
+make cluster-rm
+```
+
+* Build the Docker image:
+
+```bash
+docker build -t product:latest .
+```
+
+* Tag the Docker image:
+
+```bash
+docker tag product:latest cluster-registry:5000/product:latest
+```
+
+* Push the Docker image to the cluster registry:
+
+```bash
+docker push cluster-registry:5000/product:latest
+```
+
+* Apply the Kubernetes configurations:
+
+```bash
+kubectl apply -f k8s/
+```
+
+The service will start and be accessible at `http://localhost:8080`.
+
+## OpenShift Deployment
+
+We deploy our service using OpenShift Pipeline. The application can be accessed at:
+
+https://product-cs7483-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/
+
+## Swagger API Documentation
+
+This service includes Swagger API documentation to help you understand and interact with the API. You can access the Swagger UI at the `/apidocs` endpoint of the deployed service. 
+
+
+## Error Handling
+The API returns a JSON object with a status code, an error, and a string message when an error occurs. For example, `{ status.HTTP_400_BAD_REQUEST,"Bad Request","product was not found."} `
 
 ## License
 
