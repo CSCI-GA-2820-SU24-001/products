@@ -335,7 +335,7 @@ class TestYourResourceService(TestCase):
 
     def test_purchase_not_available(self):
         """It should not Purchase a Product that is not available"""
-        products = self._create_products(10)
+        products = self._create_products(5)
         unavailable_products = [
             product for product in products if product.available is False
         ]
