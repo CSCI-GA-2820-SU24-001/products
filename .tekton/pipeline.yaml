@@ -26,6 +26,7 @@ spec:
     - name: GIT_REPO
       description: The URL to the git repo
       type: string
+      default: 'https://github.com/CSCI-GA-2820-SU24-001/products.git'
     - name: GIT_REF
       description: The reference (branch or ref)
       type: string
