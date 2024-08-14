@@ -158,10 +158,19 @@ kubectl apply -f k8s/
 
 The service will start and be accessible at `http://localhost:8080`.
 
+## OpenShift Deployment
+
+We deploy our service using OpenShift Pipeline. The application can be accessed at:
+
+https://product-cs7483-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/
+
 ## Swagger API Documentation
 
 This service includes Swagger API documentation to help you understand and interact with the API. You can access the Swagger UI at the `/apidocs` endpoint of the deployed service. 
 
+
+## Error Handling
+The API returns a JSON object with a status code, an error, and a string message when an error occurs. For example, `{ status.HTTP_400_BAD_REQUEST,"Bad Request","product was not found."} `
 
 ## License
 
