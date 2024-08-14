@@ -28,11 +28,11 @@ PUT /products/{id} - updates a Product record in the database
 DELETE /products/{id} - deletes a Product record in the database
 """
 
+from decimal import Decimal
 from flask import current_app as app  # Import Flask application
 from flask_restx import Resource, fields, reqparse, inputs
 from service.models import Product
 from service.common import status  # HTTP Status Codes
-from decimal import Decimal
 from . import api
 
 
@@ -151,7 +151,7 @@ class ProductResource(Resource):
         product.update()
         app.logger.info("Product with ID: %d updated.", product.id)
         return product.serialize(), status.HTTP_200_OK
-    
+
     # ------------------------------------------------------------------
     # DELETE A PRODUCT
     # ------------------------------------------------------------------

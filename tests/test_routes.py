@@ -290,8 +290,8 @@ class TestYourResourceService(TestCase):
             product for product in products if product.available is False
         ]
 
-        available_count = len([product for product in available_products])
-        unavailable_count = len([product for product in unavailable_products])
+        available_count = len(list(available_products))
+        unavailable_count = len(list(unavailable_products))
         logging.debug("Available Products [%d] %s", available_count, available_products)
         logging.debug(
             "Unavailable Products [%d] %s", unavailable_count, unavailable_products
