@@ -22,7 +22,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: product
-        image: cluster-registry:5000/product:latest
+        image: cluster-registry:5000/product:1.0
         # image: product
         imagePullPolicy: IfNotPresent
         ports:
