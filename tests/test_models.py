@@ -66,6 +66,7 @@ class TestProduct(TestCase):
         product.create()
         self.assertIsNotNone(product.id)
         self.assertTrue(product is not None)
+        self.assertIsNotNone(product.name)
         self.assertEqual(product.name, "Test Product")
         self.assertEqual(product.description, "A test product")
         self.assertEqual(product.price, Decimal("10.00"))
@@ -196,10 +197,15 @@ class TestProduct(TestCase):
     def test_create_with_missing_data(self):
         """It should not create a Product with missing data"""
         product = Product(
-            name=None, description="A test product", price=Decimal("10.00")
+            name=None, description="A test product", price=Decimal("10.00"),
         )
         with self.assertRaises(DataValidationError):
             product.create()
+
+    def test_create_a_product_with_no_name(self):
+        """It should not create a Product with no name"""
+        product = Product(description="A test product", price=Decimal("10.00"),)
+        self.assertRaises(DataValidationError, product.create)
 
     def test_serialize_with_special_characters(self):
         """It should serialize a Product with special characters"""
