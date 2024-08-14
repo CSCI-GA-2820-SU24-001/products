@@ -30,10 +30,20 @@ DELETE /products/{id} - deletes a Product record in the database
 
 from decimal import Decimal
 from flask import current_app as app  # Import Flask application
+from flask import jsonify
 from flask_restx import Resource, fields, reqparse, inputs
 from service.models import Product
 from service.common import status  # HTTP Status Codes
 from . import api
+
+
+######################################################################
+# GET HEALTH CHECK
+######################################################################
+@app.route("/health")
+def health_check():
+    """Let them know our heart is still beating"""
+    return jsonify(status=200, message="Healthy"), status.HTTP_200_OK
 
 
 ######################################################################
