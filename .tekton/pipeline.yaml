@@ -18,7 +18,7 @@ spec:
     - name: APP_NAME
       description: Name of the application
       type: string
-      default: petshop
+      default: products
     - name: IMAGE_NAME
       description: The name of the image to build
       type: string
@@ -73,7 +73,7 @@ spec:
           value: service
         - name: args
           value: []
-        - name: requirements-file
+        - name: requirements_file
           value: requirements.txt
       runAfter:
         - git-clone
@@ -85,14 +85,14 @@ spec:
           workspace: pipeline-workspace
     - name: testing
       params:
-        - name: pytest-args
+        - name: PYTEST_ARGS
           value:
             - '--pspec'
             - '--cov=service'
             - '--cov-fail-under=95'
-        - name: secret-name
+        - name: SECRET_NAME
           value: postgres-creds
-        - name: secret-key
+        - name: SECRET_KEY
           value: database_uri
       runAfter:
         - git-clone
@@ -135,9 +135,9 @@ spec:
           workspace: pipeline-workspace
     - name: deploy-image
       params:
-        - name: IMAGE_NAME
+        - name: image_name
           value: $(params.IMAGE_NAME)
-        - name: manifest-dir
+        - name: manifest_dir
           value: k8s
       runAfter:
         - buildah
